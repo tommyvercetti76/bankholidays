@@ -1,12 +1,17 @@
 
 async function init() {
 
-    // Attach event listener to the form
     document.getElementById('country-form').addEventListener('submit', async (event) => {
         event.preventDefault();
-        const countryCode = document.getElementById('country').value.toUpperCase();
-        getHolidays(countryCode);
-    });
+        const countryName = document.getElementById('country').value.trim();
+        const countryCode = countryList.getCode(countryName);
+        
+        if (countryCode) {
+            getHolidays(countryCode);
+        } else {
+            displayError('Invalid country name. Please enter a valid country name.');
+        }
+    });    
 }
 
 

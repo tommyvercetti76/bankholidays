@@ -9,8 +9,9 @@
     <!-- Add jQuery and Bootstrap scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Load Google API library -->
-    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/country-list@2.2.0/dist/index.min.js"></script>
+
+
     <!-- Add custom styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -20,7 +21,7 @@
         <form id="country-form">
             <div class="form-group">
                 <label for="country">Select Country:</label>
-                <input type="text" class="form-control" id="country" placeholder="Enter country code (e.g., US)" required>
+                <input type="text" class="form-control" id="country" placeholder="Enter country name (e.g., United States)" required>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
