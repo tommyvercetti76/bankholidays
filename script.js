@@ -4,7 +4,7 @@ gapi.load('client', init);
 // Initialize the Google API Client Library
 async function init() {
     await gapi.client.init({
-        apiKey: 'YOUR_API_KEY',
+        apiKey: 'AIzaSyCzouCHyuXKtq3f_iMDBRTmNZwNEt5Y5YY',
     });
     getHolidays();
 }
