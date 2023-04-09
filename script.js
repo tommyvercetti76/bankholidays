@@ -1,11 +1,5 @@
-// Load the Google API Client Library
-gapi.load('client', init);
 
-// Initialize the Google API Client Library
 async function init() {
-    await gapi.client.init({
-        apiKey: 'AIzaSyCzouCHyuXKtq3f_iMDBRTmNZwNEt5Y5YY',
-    });
 
     // Attach event listener to the form
     document.getElementById('country-form').addEventListener('submit', async (event) => {
