@@ -17,13 +17,21 @@ async function init() {
 
 // Fetch bank holidays and display them in a table
 async function getHolidays(countryCode) {
-    // Request bank holidays from Google Calendar API
-    const response = await gapi.client.request({
-        path: `https://www.googleapis.com/calendar/v3/calendars/en.${countryCode}%23holiday%40group.v.calendar.google.com/events`,
-    });
+    try {
+        // Request bank holidays from Google Calendar API
+        const response = await gapi.client.request({
+            path: `https://www.googleapis.com/calendar/v3/calendars/en.${countryCode}%23holiday%40group.v.calendar.google.com/events`,
+        });
 
-    const holidays = response.result.items;
-    displayHolidays(holidays);
+        const holidays = response.result.items;
+        displayHolidays(holidays);
+    } catch (error) {
+        if (error.status === 404) {
+            displayError('Calendar not found for the entered country code. Please enter a valid country code.');
+        } else {
+            displayError('An error occurred while fetching holidays. Please try again later.');
+        }
+    }
 }
 
 // Display holidays in a table
@@ -42,4 +50,10 @@ function displayHolidays(holidays) {
     });
     table += '</table>';
     calendarDiv.innerHTML = table;
+}
+
+// Display error message
+function displayError(message) {
+    const calendarDiv = document.getElementById('calendar');
+    calendarDiv.innerHTML = `<p class="alert alert-danger">${message}</p>`;
 }
