@@ -4,14 +4,15 @@ async function init() {
     document.getElementById('country-form').addEventListener('submit', async (event) => {
         event.preventDefault();
         const countryName = document.getElementById('country').value.trim();
-        const countryCode = countryList.getCode(countryName);
-        
+        const countryCode = CountryList.getCode(countryName);
+    
         if (countryCode) {
             getHolidays(countryCode);
         } else {
             displayError('Invalid country name. Please enter a valid country name.');
         }
-    });    
+    });
+    
 }
 
 
