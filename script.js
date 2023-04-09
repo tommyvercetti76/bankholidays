@@ -15,26 +15,27 @@ async function init() {
     });
 }
 
-// Fetch bank holidays and display them in a table
-async function getHolidays(countryCode) {
-    try {
-        // Request bank holidays from Google Calendar API
-        const response = await gapi.client.request({
-            path: `https://www.googleapis.com/calendar/v3/calendars/en.${countryCode}%23holiday%40group.v.calendar.google.com/events`,
-        });
 
-        const holidays = response.result.items;
-        displayHolidays(holidays);
-    } catch (error) {
-        if (error.status === 404) {
-            displayError('Calendar not found for the entered country code. Please enter a valid country code.');
+async function getHolidays(countryCode) {
+    const apiKey = '58bd74fcaee84f307354b7b15633618b126c6801';
+    const year = new Date().getFullYear();
+
+    try {
+        const response = await fetch(
+            `https://calendarific.com/api/v2/holidays?&api_key=${apiKey}&country=${countryCode}&year=${year}&type=national`
+        );
+        const data = await response.json();
+
+        if (data.response.holidays.length === 0) {
+            displayError('No holidays found for the entered country code. Please enter a valid country code.');
         } else {
-            displayError('An error occurred while fetching holidays. Please try again later.');
+            displayHolidays(data.response.holidays);
         }
+    } catch (error) {
+        displayError('An error occurred while fetching holidays. Please try again later.');
     }
 }
 
-// Display holidays in a table
 function displayHolidays(holidays) {
     const calendarDiv = document.getElementById('calendar');
     let table = `<table class="table-responsive">
@@ -44,16 +45,10 @@ function displayHolidays(holidays) {
                     </tr>`;
     holidays.forEach(holiday => {
         table += `<tr>
-                    <td>${new Date(holiday.start.date).toLocaleDateString()}</td>
-                    <td>${holiday.summary}</td>
+                    <td>${new Date(holiday.date.iso).toLocaleDateString()}</td>
+                    <td>${holiday.name}</td>
                   </tr>`;
     });
     table += '</table>';
     calendarDiv.innerHTML = table;
-}
-
-// Display error message
-function displayError(message) {
-    const calendarDiv = document.getElementById('calendar');
-    calendarDiv.innerHTML = `<p class="alert alert-danger">${message}</p>`;
 }
