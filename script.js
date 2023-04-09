@@ -52,3 +52,9 @@ function displayHolidays(holidays) {
     table += '</table>';
     calendarDiv.innerHTML = table;
 }
+
+// Display error message
+function displayError(message) {
+    const calendarDiv = document.getElementById('calendar');
+    calendarDiv.innerHTML = `<p class="alert alert-danger">${message}</p>`;
+}
