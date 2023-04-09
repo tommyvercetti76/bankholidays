@@ -11,8 +11,7 @@ async function init() {
         } else {
             displayError('Invalid country name. Please enter a valid country name.');
         }
-    });
-    
+    }); 
 }
 
 
