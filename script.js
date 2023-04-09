@@ -4,16 +4,19 @@ gapi.load('client', init);
 // Initialize the Google API Client Library
 async function init() {
     await gapi.client.init({
-        apiKey: 'AIzaSyCzouCHyuXKtq3f_iMDBRTmNZwNEt5Y5YY',
+        apiKey: 'YOUR_API_KEY',
     });
-    getHolidays();
+
+    // Attach event listener to the form
+    document.getElementById('country-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const countryCode = document.getElementById('country').value.toUpperCase();
+        getHolidays(countryCode);
+    });
 }
 
 // Fetch bank holidays and display them in a table
-async function getHolidays() {
-    // Get the user's country
-    const countryCode = await getUserCountryCode();
-
+async function getHolidays(countryCode) {
     // Request bank holidays from Google Calendar API
     const response = await gapi.client.request({
         path: `https://www.googleapis.com/calendar/v3/calendars/en.${countryCode}%23holiday%40group.v.calendar.google.com/events`,
@@ -39,17 +42,4 @@ function displayHolidays(holidays) {
     });
     table += '</table>';
     calendarDiv.innerHTML = table;
-}
-
-// Get the user's country code
-async function getUserCountryCode() {
-    try {
-        const response = await fetch('https://ipapi.co/json/');
-        const data = await response.json();
-        return data.country_code;
-    } catch (error) {
-        console.error('Error fetching country code:', error);
-        // Fallback to the US if there's an error fetching the country code
-        return 'US';
-    }
 }
